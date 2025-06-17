@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Comprehensive Analysis of GSM Communications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link-active {
+            color: #06b6d4; /* cyan-500 */
+            border-bottom-color: #06b6d4;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+             transform: translateY(-2px);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        .modal {
+            @apply fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 transition-opacity duration-300;
+        }
+        .modal-content {
+            @apply bg-slate-50 rounded-lg shadow-2xl p-8 max-w-2xl w-full transform transition-transform duration-300 scale-95;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-800 text-white sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold">GSM Deep Dive</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#architecture" class="nav-link border-b-2 border-transparent hover:text-cyan-400 hover:border-cyan-400 pb-1">Architecture</a>
+                <a href="#security" class="nav-link border-b-2 border-transparent hover:text-cyan-400 hover:border-cyan-400 pb-1">Security</a>
+                <a href="#analysis" class="nav-link border-b-2 border-transparent hover:text-cyan-400 hover:border-cyan-400 pb-1">Analysis</a>
+                <a href="#legal" class="nav-link border-b-2 border-transparent hover:text-cyan-400 hover:border-cyan-400 pb-1">Legal</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <!-- Title Section -->
+        <section class="text-center py-16">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">A Comprehensive Analysis of GSM Communications</h2>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">An interactive exploration of the architecture, security vulnerabilities, and practical analysis of the world's most widespread mobile standard.</p>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="space-y-12 pt-20 -mt-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800">Part I: The Theoretical Foundations</h3>
+            <div class="card">
+                <h4 class="text-2xl font-bold text-slate-900 mb-4">Interactive Network Architecture</h4>
+                <p class="mb-8 text-slate-600">GSM's architecture is divided into four main pillars. Click on any component in the diagram below to see a detailed explanation of its function and how it fits into the larger system.</p>
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Interactive Diagram -->
+                    <div id="architecture-diagram" class="w-full lg:w-3/5 grid grid-cols-3 gap-4 items-center text-center">
+                        <div class="arch-component col-span-3 cursor-pointer p-4 bg-cyan-50 border-2 border-cyan-200 rounded-lg" data-component="ms">
+                            <span class="text-4xl">📱</span><br>Mobile Station (MS)
+                        </div>
+                        <div class="col-span-3 text-2xl font-bold text-slate-400">↓</div>
+                        <div class="arch-component col-start-2 cursor-pointer p-4 bg-sky-50 border-2 border-sky-200 rounded-lg" data-component="bts">
+                            <span class="text-4xl">📡</span><br>BTS
+                        </div>
+                        <div class="col-span-3 text-2xl font-bold text-slate-400">↑ ↓</div>
+                        <div class="arch-component col-start-2 cursor-pointer p-4 bg-sky-100 border-2 border-sky-300 rounded-lg" data-component="bsc">
+                           <span class="text-4xl">🎛️</span><br>Base Station Controller (BSC)
+                        </div>
+                        <div class="col-span-3 text-2xl font-bold text-slate-400">↓</div>
+                        <div class="arch-component col-start-2 cursor-pointer p-4 bg-indigo-100 border-2 border-indigo-300 rounded-lg" data-component="msc">
+                           <span class="text-4xl">🏢</span><br>Mobile Switching Center (MSC)
+                        </div>
+                        <div class="arch-component col-start-1 row-start-7 cursor-pointer p-4 bg-purple-50 border-2 border-purple-200 rounded-lg h-full" data-component="hlr">
+                            <span class="text-4xl">📒</span><br>HLR & VLR
+                        </div>
+                         <div class="arch-component col-start-3 row-start-7 cursor-pointer p-4 bg-purple-50 border-2 border-purple-200 rounded-lg h-full" data-component="auc">
+                           <span class="text-4xl">🔐</span><br>AuC & EIR
+                        </div>
+                    </div>
+                    <!-- Details Panel -->
+                    <div id="architecture-details" class="w-full lg:w-2/5 p-6 bg-slate-50 rounded-lg border border-slate-200">
+                        <h5 id="detail-title" class="text-xl font-bold mb-3 text-slate-800">Select a Component</h5>
+                        <p id="detail-text" class="text-slate-600">Detailed information about the selected network component will appear here. This panel provides a summary of the component's function and its sub-parts, based on the comprehensive analysis report.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section id="security" class="space-y-12 pt-20 -mt-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800">Part II: Security & Vulnerabilities</h3>
+            <div class="card">
+                <h4 class="text-2xl font-bold text-slate-900 mb-2">Key Vulnerabilities</h4>
+                <p class="mb-8 text-slate-600">GSM's security model, once considered strong, has been compromised by several key flaws discovered over the years. Click on a card to learn more about each vulnerability.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="vuln-card cursor-pointer p-6 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200 text-center transition">
+                        <div class="text-4xl mb-2">🚨</div>
+                        <h5 class="font-bold text-red-800">False Base Station</h5>
+                        <p class="text-sm text-slate-600">Attackers can impersonate a real cell tower to perform man-in-the-middle attacks.</p>
+                    </div>
+                    <div class="vuln-card cursor-pointer p-6 bg-orange-50 hover:bg-orange-100 rounded-lg border border-orange-200 text-center transition" data-vuln="a51">
+                        <div class="text-4xl mb-2">🔓</div>
+                        <h5 class="font-bold text-orange-800">A5/1 Cracking</h5>
+                        <p class="text-sm text-slate-600">The "strong" encryption can be broken in minutes with pre-computed rainbow tables.</p>
+                    </div>
+                    <div class="vuln-card cursor-pointer p-6 bg-yellow-50 hover:bg-yellow-100 rounded-lg border border-yellow-200 text-center transition" data-vuln="comp128">
+                        <div class="text-4xl mb-2">📉</div>
+                        <h5 class="font-bold text-yellow-800">COMP128 Key Flaw</h5>
+                        <p class="text-sm text-slate-600">The key generation algorithm was deliberately weakened, reducing security by a factor of 1024.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-4">The COMP128 Key Flaw Visualized</h4>
+                    <p class="mb-4 text-slate-600">This chart shows the impact of the COMP128 flaw. Of the 64 bits that should have been used for the session key, only 54 were effective, making brute-force attacks significantly more feasible.</p>
+                    <div class="chart-container">
+                        <canvas id="comp128Chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-4">Security Evolution: 2G vs 3G/4G</h4>
+                    <p class="mb-4 text-slate-600">Later generations fixed GSM's biggest flaws by introducing mutual authentication (the phone also verifies the network) and using much stronger, modern encryption algorithms.</p>
+                    <div class="chart-container" style="height: 350px;">
+                        <canvas id="securityEvolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="space-y-12 pt-20 -mt-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800">Part III: Practical Analysis</h3>
+            <div class="card">
+                <h4 class="text-2xl font-bold text-slate-900 mb-4">Passive Analysis Workflow</h4>
+                <p class="mb-8 text-slate-600">Using affordable hardware and open-source software, it's possible for researchers to passively capture and decode GSM signaling data. This workflow shows the four key steps involved in turning radio waves into analyzable network traffic.</p>
+                <div class="flex flex-col md:flex-row items-stretch justify-center space-y-6 md:space-y-0 md:space-x-4 text-center">
+                    <div class="p-6 bg-slate-50 border-t-4 border-cyan-500 rounded-b-lg flex-1">
+                        <div class="font-bold text-xl mb-2">1. Find Channel</div>
+                        <p class="text-sm">Use <code class="bg-slate-200 text-slate-800 px-1 rounded">kalibrate-rtl</code> to scan the airwaves and find a base station's beacon frequency (C0).</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 border-t-4 border-sky-500 rounded-b-lg flex-1">
+                        <div class="font-bold text-xl mb-2">2. Capture Signal</div>
+                        <p class="text-sm">Use an RTL-SDR dongle to capture the raw radio frequency data from the chosen channel to a file.</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 border-t-4 border-indigo-500 rounded-b-lg flex-1">
+                        <div class="font-bold text-xl mb-2">3. Decode Data</div>
+                        <p class="text-sm">Process the capture with <code class="bg-slate-200 text-slate-800 px-1 rounded">gr-gsm</code> to demodulate the signal and decode the logical channels.</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 border-t-4 border-purple-500 rounded-b-lg flex-1">
+                        <div class="font-bold text-xl mb-2">4. Analyze</div>
+                        <p class="text-sm">View the decoded signaling protocols in <code class="bg-slate-200 text-slate-800 px-1 rounded">Wireshark</code> to analyze metadata and network behavior.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Legal Section -->
+        <section id="legal" class="space-y-12 pt-20 -mt-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800">Part IV: The Legal & Ethical Landscape</h3>
+            <div class="card">
+                <h4 class="text-2xl font-bold text-slate-900 mb-4">Penalties for Unauthorized Interception in India</h4>
+                <p class="mb-8 text-slate-600">While the technology is accessible, its use is strictly regulated. Indian law prescribes severe criminal penalties for anyone intercepting communications without legal authority. This table summarizes the key offenses and penalties.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-3 font-bold uppercase text-slate-600 text-sm">Legal Act</th>
+                                <th class="p-3 font-bold uppercase text-slate-600 text-sm">Offense</th>
+                                <th class="p-3 font-bold uppercase text-slate-600 text-sm">Penalty</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold">Indian Telegraph Act, 1885</td>
+                                <td class="p-3">Unlawfully intercepting messages</td>
+                                <td class="p-3">Up to 3 years imprisonment or fine, or both.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold">IT Act, 2000</td>
+                                <td class="p-3">Failure to assist lawful interception</td>
+                                <td class="p-3">Up to 7 years imprisonment and fine.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold">IT Act, 2000</td>
+                                <td class="p-3">Breach of confidentiality by authorized person</td>
+                                <td class="p-3">Up to 2 years imprisonment or fine up to ₹1 Lakh, or both.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-16 pt-8 border-t border-slate-200">
+             <p class="text-slate-500">Analysis and content by **Purnendra Jangid**.</p>
+            <p class="text-sm text-slate-500 mt-1">Webpage and visualizations generated with assistance from **Gemini 2.5 Pro**.</p>
+            <p class="text-sm text-slate-400 mt-2">All content is for educational and research purposes only.</p>
+        </footer>
+    </main>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal hidden opacity-0">
+        <div class="modal-content scale-95">
+            <h5 id="modal-title" class="text-2xl font-bold mb-4 text-slate-900"></h5>
+            <p id="modal-body" class="text-slate-700 whitespace-pre-wrap"></p>
+            <button id="modal-close" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800 transition-colors">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Register datalabels plugin
+            Chart.register(ChartDataLabels);
+
+            const archDetails = {
+                ms: { title: '📱 Mobile Station (MS)', text: "This is the user's equipment, comprising the physical mobile phone and the Subscriber Identity Module (SIM) card. The SIM is critical as it stores the subscriber's identity and the secret keys required for authentication." },
+                bts: { title: '📡 Base Transceiver Station (BTS)', text: "The BTS is the equipment on a cell tower that handles the radio communication with mobile phones. It's responsible for transmitting, receiving, encrypting, and decrypting signals over the air." },
+                bsc: { title: '🎛️ Base Station Controller (BSC)', text: "The BSC is the 'brain' that manages multiple BTS towers. It allocates radio channels, controls handovers between cells, and acts as a concentrator, funneling traffic towards the core network." },
+                msc: { title: '🏢 Mobile Switching Center (MSC)', text: "The MSC is the central node of the core network, acting like a telephone exchange. It routes calls and SMS messages between users and connects the mobile network to external networks like the PSTN." },
+                hlr: { title: '📒 HLR & VLR', text: "The Home Location Register (HLR) is a permanent database of all subscriber information. The Visitor Location Register (VLR) is a temporary database that stores a copy of a user's data when they roam into a new MSC area, speeding up call setup." },
+                auc: { title: '🔐 AuC & EIR', text: "The Authentication Center (AuC) is a secure database that stores secret keys and generates the parameters needed to authenticate users. The Equipment Identity Register (EIR) is a database of device IMEIs used to block stolen or unauthorized phones." }
+            };
+
+            const vulnDetails = {
+                imsi: { title: '🚨 False Base Station / IMSI Catcher', body: "The GSM protocol only requires the network to authenticate the phone, not the other way around. An attacker can set up a rogue base station (IMSI Catcher) with a strong signal. Phones in the area will connect to it automatically. Once connected, the attacker becomes a 'man-in-the-middle' and can force the phone to use no encryption, allowing them to intercept calls and SMS messages, or simply log the identities of all phones nearby." },
+                a51: { title: '🔓 A5/1 Encryption Cracking', body: "A5/1 was the 'strong' encryption for GSM. However, its design was flawed and its key length was short. After it was reverse-engineered, researchers found ways to attack it. The most practical method uses pre-computed 'rainbow tables'. By capturing a few minutes of an encrypted call, an attacker can use these massive tables (terabytes in size) to find the session key (Kc) in minutes, allowing them to decrypt the entire conversation offline." },
+                comp128: { title: '📉 COMP128 Key Flaw', body: "COMP128 was the algorithm used in most SIM cards to generate the session key (Kc). Researchers discovered it was deliberately designed to be weak. Of the 64 bits of the key it generated, the last 10 bits were always zero. This reduced the effective key strength to only 54 bits, making brute-force attacks on the A5/1 cipher 1024 times easier than they should have been. This flaw significantly weakened the entire security system from the inside." }
+            };
+
+            // Architecture Diagram Interaction
+            document.querySelectorAll('.arch-component').forEach(component => {
+                component.addEventListener('click', () => {
+                    const details = archDetails[component.dataset.component];
+                    document.getElementById('detail-title').textContent = details.title;
+                    document.getElementById('detail-text').textContent = details.text;
+                    document.querySelectorAll('.arch-component').forEach(c => c.classList.remove('ring-2', 'ring-offset-2', 'ring-cyan-500'));
+                    component.classList.add('ring-2', 'ring-offset-2', 'ring-cyan-500');
+                });
+            });
+
+            // Modal Logic
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+            document.querySelectorAll('.vuln-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const vulnKey = e.currentTarget.dataset.vuln || 'imsi';
+                    const details = vulnDetails[vulnKey];
+                    modalTitle.textContent = details.title;
+                    modalBody.textContent = details.body;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modal.querySelector('.modal-content').classList.remove('scale-95');
+                    }, 10);
+                });
+            });
+
+            const hideModal = () => {
+                modal.classList.add('opacity-0');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+            modalClose.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) hideModal();
+            });
+
+            // Navigation scroll highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const observerOptions = { root: null, rootMargin: '-40% 0px -60% 0px', threshold: 0 };
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('nav-link-active');
+                            if (link.getAttribute('href') === `#${entry.target.id}`) {
+                                link.classList.add('nav-link-active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+            sections.forEach(section => observer.observe(section));
+
+            // Tooltip callback for all charts
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+
+            // COMP128 Chart
+            const comp128Ctx = document.getElementById('comp128Chart').getContext('2d');
+            new Chart(comp128Ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Effective Key Bits', 'Weakened Key Bits'],
+                    datasets: [{
+                        data: [54, 10],
+                        backgroundColor: ['#06b6d4', '#f59e0b'],
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: 'Effective A5/1 Key Strength: 54 of 64 bits' },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 16 },
+                            formatter: (value) => value
+                        }
+                    }
+                }
+            });
+
+            // Security Evolution Chart
+            const securityEvolutionCtx = document.getElementById('securityEvolutionChart').getContext('2d');
+            new Chart(securityEvolutionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Authentication', 'Encryption', 'Signaling Integrity'],
+                    datasets: [
+                        { label: 'GSM (2G)', data: [5, 4, 1], backgroundColor: '#f59e0b' },
+                        { label: 'UMTS/LTE (3G/4G)', data: [10, 9, 8], backgroundColor: '#06b6d4' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (value) => ({0:'', 1:'None', 4:'Weak', 5:'One-Way', 8: 'Strong', 9: 'Modern', 10: 'Mutual'}[value] || '')
+                            }
+                        },
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Relative Security Feature Strength' },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } },
+                        datalabels: { display: false }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
